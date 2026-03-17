@@ -70,6 +70,7 @@ req.send();
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
+  paragraphElement.textContent = `${displayUrl}`;
   return result;
 }
 
@@ -84,6 +85,6 @@ const paragraphElement = document.getElementById("finUrl");
 paragraphElement.textContent = `${displayUrl}`;
 </script>
     <img display="none" src=`${embImg}` id="embed" alt="Embedded Image">
-    <p id="finUrl"></p>
+    <p id="finUrl" src=`${displayUrl}`></p>
 </body>
 </html>
