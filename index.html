@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Twitter/Discord Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Replace with your image URL -->
+    <meta name="twitter:image" content=`${embImg}`> 
+    <meta property="og:image" content=`${embImg}`>
+    
+    <title>Unabled Image Host</title>
+</head>
+<body>
+<input type="file" id="fileInput" accept="image/*">
+<script>
+  document.getElementById('fileInput').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64String = e.target.result; // This is the data URL
+      console.log(base64String);
+        let req = new XMLHttpRequest();
+      
+      req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+          console.log(req.responseText);
+        }
+      };
+      
+      req.open("PUT", "https://api.jsonbin.io/v3/b/69b9d7fdc3097a1dd53482bd", true);
+      req.setRequestHeader("Content-Type", "application/json");
+      req.setRequestHeader("X-Master-Key", "$2a$10$ZMJv203Q5nKtDH4s0QusW.rH5zssFLrm8dJ9KgdU2XSYXIOZrzD62");
+      req.send(`
+        "images": [
+          {
+            "id": "${randomString}",
+            "url": "${base64String}",
+          }
+        ]`);
+    };
+    reader.readAsDataURL(file); // Reads the file as a data URL (which includes base64)
+    window.location.reload()
+  }
+});
+</script>
+<script>
+const fileInput = document.getElementById("fileInput");
+const embed = document.getElementById("embed");
+var hashValue = window.location.hash.substring(1);
+if hashValue.length =! 0 {
+  fileInput.style.display = "none";
+  embed.style.display = "block";
+  let req = new XMLHttpRequest();
 
+req.onreadystatechange = () => {
+  if (req.readyState == XMLHttpRequest.DONE) {
+    console.log(req.responseText);
+    const embImg = req.responseText;
+  }
+};
+
+req.open("GET", "https://api.jsonbin.io/v3/b/69b9d7fdc3097a1dd53482bd/latest", true);
+req.setRequestHeader("X-Master-Key", "$2a$10$ZMJv203Q5nKtDH4s0QusW.rH5zssFLrm8dJ9KgdU2XSYXIOZrzD62");
+req.setRequestHeader("X-JSON-Path", `$.moduleAccess.[?(@.id==${hashValue})].url`);
+req.send();
+}
+  function createRandomAlphanumericString(length) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+// Generate an 8-character string
+const randomString = createRandomAlphanumericString(8);
+console.log(randomString);
+</script>
+    <img display="none" src=`${embImg}` id="embed" alt="Embedded Image">
+</body>
+</html>
