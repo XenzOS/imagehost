@@ -7,7 +7,6 @@
     <!-- Replace with your image URL -->
     <meta name="twitter:image" content=`${embImg}`> 
     <meta property="og:image" content=`${embImg}`>
-    
     <title>Unabled Image Host</title>
 </head>
 <body>
@@ -78,7 +77,13 @@ req.send();
 const displayUrl = `https://cdn.playub.net/index.html#${randomString}`
 const randomString = createRandomAlphanumericString(8);
 console.log(randomString);
+// Select the paragraph element by its ID
+const paragraphElement = document.getElementById("finUrl");
+
+// Set the plain text content
+paragraphElement.textContent = `${displayUrl}`;
 </script>
     <img display="none" src=`${embImg}` id="embed" alt="Embedded Image">
+    <p id="finUrl"></p>
 </body>
 </html>
