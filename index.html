@@ -38,6 +38,10 @@
           }
         ]`);
     };
+    const paragraphElement = document.getElementById("finUrl");
+paragraphElement.textContent = displayUrl;
+// Set the plain text content
+paragraphElement.textContent = `${displayUrl}`;
     reader.readAsDataURL(file); // Reads the file as a data URL (which includes base64)
   }
 });
@@ -81,7 +85,7 @@ console.log(randomString);
 const paragraphElement = document.getElementById("finUrl");
 
 // Set the plain text content
-paragraphElement.textContent = `${displayUrl}`;
+paragraphElement.textContent = displayUrl;
 </script>
     <img display="none" src=`${embImg}` id="embed" alt="Embedded Image">
     <p id="finUrl" src=`${displayUrl}`></p>
