@@ -11,7 +11,45 @@
     <title>Unabled Image Host</title>
 </head>
 <body>
-<input type="file" id="fileInput" accept="image/*">
+<input type="file" id="fileInput" accept="image/*"> 
+<button onclick=yes()>yes</button>
+<script>
+
+function yes() {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64String = e.target.result; // This is the data URL
+          console.log(base64String);
+            let req = new XMLHttpRequest();
+          
+          req.onreadystatechange = () => {
+            if (req.readyState == XMLHttpRequest.DONE) {
+              console.log(req.responseText);
+            }
+          };
+          
+          req.open("PUT", "https://api.jsonbin.io/v3/b/69b9d7fdc3097a1dd53482bd", true);
+          req.setRequestHeader("Content-Type", "application/json");
+          req.setRequestHeader("X-Master-Key", "$2a$10$ZMJv203Q5nKtDH4s0QusW.rH5zssFLrm8dJ9KgdU2XSYXIOZrzD62");
+          req.send(`
+            "images": [
+              {
+                "id": "${newString}",
+                "url": "${base64String}",
+              }
+            ]`);
+        };
+        const paragraphElement = document.getElementById("finUrl");
+    paragraphElement.textContent = displayUrl;
+    // Set the plain text content
+    paragraphElement.textContent = `${displayUrl}`;
+        reader.readAsDataURL(file); // Reads the file as a data URL (which includes base64)
+      }
+    });
+}
+</script>
 <script>
   document.getElementById('fileInput').addEventListener('change', function(event) {
   const file = event.target.files[0];
