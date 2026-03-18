@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="">
     <meta charset="UTF-8">
     <!-- Twitter/Discord Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +34,7 @@
       req.send(`
         "images": [
           {
-            "id": "${randomString}",
+            "id": "${newString}",
             "url": "${base64String}",
           }
         ]`);
@@ -78,7 +79,8 @@ req.send();
 }
 
 // Generate an 8-character string
-const displayUrl = `https://cdn.playub.net/index.html#${randomString}`
+const displayUrl = "https://cdn.playub.net/index.html#" + randomString
+let newString = displayUrl.replace("https://cdn.playub.net/index.html#", ""); 
 const randomString = createRandomAlphanumericString(8);
 console.log(randomString);
 // Select the paragraph element by its ID
