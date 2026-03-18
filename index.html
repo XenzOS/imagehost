@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!-- Twitter/Discord Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- Replace with your image URL -->
-    <meta name="twitter:image" content=hash.slice(1)> 
-    <meta property="og:image" content=hash.slice(1)>
-    <title>Unabled Image Host</title>
-</head>
+<html>
 <body>
-<img display="none" src=hash.slice(1) id="embed" alt="Embedded Image">
+
+<h2>Upload Image</h2>
+
+<input type="file" id="file">
+<button onclick="upload()">Upload</button>
+
+<p id="link"></p>
+
+<script>
+const CLOUD_NAME = "dvydjsj6r";
+const PRESET = "unsigned_preset";
+const WORKER_URL = "https://dawn-base-786a.silverplaysbrawlstars.workers.dev/";
+
+async function upload() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return alert("Pick a file");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", PRESET);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+
+  const data = await res.json();
+
+  if (!data.secure_url) {
+    alert("Upload failed");
+    return;
+  }
+
+  const encoded = encodeURIComponent(data.secure_url);
+  const finalLink = `${WORKER_URL}?img=${encoded}`;
+
+  document.getElementById("link").innerHTML =
+    `<a href="${finalLink}" target="_blank">${finalLink}</a>`;
+}
+</script>
+
+</body>
+</html>
